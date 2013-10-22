@@ -1,7 +1,5 @@
 //
-//  NSString+JSMessagesView.m
-//
-//  Created by Jesse Squires on 2/14/13.
+//  Created by Jesse Squires on 3/19/13.
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
 //  http://www.hexedbits.com
@@ -26,18 +24,11 @@
 //  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "NSString+JSMessagesView.h"
+#import <UIKit/UIKit.h>
 
-@implementation NSString (JSMessagesView)
+@interface UIColor (JSMessagesView)
 
-- (NSString *)trimWhitespace
-{
-    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-}
-
-- (NSUInteger)numberOfLines
-{
-    return [self componentsSeparatedByString:@"\n"].count + 1;
-}
++ (UIColor *)js_messagesBackgroundColor_iOS6;
++ (UIColor *)js_messagesTimestampColor_iOS6;
 
 @end

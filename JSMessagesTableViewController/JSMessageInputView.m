@@ -1,13 +1,11 @@
 //
-//  JSMessageInputView.m
-//
 //  Created by Jesse Squires on 2/12/13.
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
 //  http://www.hexedbits.com
 //
 //
-//  Largely based on work by Sam Soffes
+//  Originally based on work by Sam Soffes
 //  https://github.com/soffes
 //
 //  SSMessagesViewController
@@ -35,8 +33,10 @@
 
 #import "JSMessageInputView.h"
 #import "JSBubbleView.h"
+
 #import "NSString+JSMessagesView.h"
-#import "UIImage+JSMessagesView.h"
+#import "UIImage+JSMessagesBubble.h"
+#import "UIImage+JSMessagesInputBar.h"
 
 #define SEND_BUTTON_WIDTH 78.0f
 
@@ -51,24 +51,27 @@
 
 @implementation JSMessageInputView
 
-@synthesize sendButton;
-
 #pragma mark - Initialization
-- (id)initWithFrame:(CGRect)frame
-           delegate:(id<UITextViewDelegate>)delegate
+
+- (instancetype)initWithFrame:(CGRect)frame
+             textViewDelegate:(id<UITextViewDelegate>)delegate
+             keyboardDelegate:(id<JSDismissiveTextViewDelegate>)keyboardDelegate
+         panGestureRecognizer:(UIPanGestureRecognizer *)pan
 {
     self = [super initWithFrame:frame];
     if(self) {
         [self setup];
-        self.textView.delegate = delegate;
+        _textView.delegate = delegate;
+        _textView.keyboardDelegate = keyboardDelegate;
+        _textView.dismissivePanGestureRecognizer = pan;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    self.textView = nil;
-    self.sendButton = nil;
+    _textView = nil;
+    _sendButton = nil;
 }
 
 - (BOOL)resignFirstResponder
@@ -76,10 +79,12 @@
     [self.textView resignFirstResponder];
     return [super resignFirstResponder];
 }
+
 #pragma mark - Setup
+
 - (void)setup
 {
-    self.image = [UIImage inputBar];
+    self.image = [UIImage js_inputBar_iOS6];
     self.backgroundColor = [UIColor whiteColor];
     self.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin);
     self.opaque = YES;
@@ -92,49 +97,38 @@
     CGFloat width = self.frame.size.width - SEND_BUTTON_WIDTH;
     CGFloat height = [JSMessageInputView textViewLineHeight];
     
-    self.textView = [[JSDismissiveTextView  alloc] initWithFrame:CGRectMake(6.0f, 3.0f, width, height)];
-    self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.textView.backgroundColor = [UIColor whiteColor];
-    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 8.0f);
-    self.textView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-    self.textView.scrollEnabled = YES;
-    self.textView.scrollsToTop = NO;
-    self.textView.userInteractionEnabled = YES;
-    self.textView.font = [JSBubbleView font];
-    self.textView.textColor = [UIColor blackColor];
-    self.textView.backgroundColor = [UIColor whiteColor];
-    self.textView.keyboardAppearance = UIKeyboardAppearanceDefault;
-    self.textView.keyboardType = UIKeyboardTypeDefault;
-    self.textView.returnKeyType = UIReturnKeyDefault;
-    [self addSubview:self.textView];
+    _textView = [[JSMessageTextView  alloc] initWithFrame:CGRectMake(6.0f, 3.0f, width, height)];
+    [self addSubview:_textView];
 	
-    UIImageView *inputFieldBack = [[UIImageView alloc] initWithFrame:CGRectMake(self.textView.frame.origin.x - 1.0f,
+    UIImageView *inputFieldBack = [[UIImageView alloc] initWithFrame:CGRectMake(_textView.frame.origin.x - 1.0f,
                                                                                 0.0f,
-                                                                                self.textView.frame.size.width + 2.0f,
+                                                                                _textView.frame.size.width + 2.0f,
                                                                                 self.frame.size.height)];
-    inputFieldBack.image = [UIImage inputField];
+    inputFieldBack.image = [UIImage js_inputField_iOS6];
     inputFieldBack.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     inputFieldBack.backgroundColor = [UIColor clearColor];
     [self addSubview:inputFieldBack];
 }
 
 #pragma mark - Setters
+
 - (void)setSendButton:(UIButton *)btn
 {
-    if(sendButton)
-        [sendButton removeFromSuperview];
+    if(_sendButton)
+        [_sendButton removeFromSuperview];
     
-    sendButton = btn;
-    [self addSubview:self.sendButton];
+    _sendButton = btn;
+    [self addSubview:_sendButton];
 }
 
 #pragma mark - Message input view
+
 - (void)adjustTextViewHeightBy:(CGFloat)changeInHeight
 {
     CGRect prevFrame = self.textView.frame;
     
     int numLines = MAX([JSBubbleView numberOfLinesForMessage:self.textView.text],
-                       [self.textView.text numberOfLines]);
+                       [self.textView.text js_numberOfLines]);
     
     self.textView.frame = CGRectMake(prevFrame.origin.x,
                                      prevFrame.origin.y,

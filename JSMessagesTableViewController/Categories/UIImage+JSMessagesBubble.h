@@ -1,6 +1,4 @@
 //
-//  UIImage+JSMessagesView.h
-//
 //  Created by Jesse Squires on 7/25/13.
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
@@ -28,45 +26,34 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (JSMessagesView)
-
-#pragma mark - Avatar styles
-- (UIImage *)circleImageWithSize:(CGFloat)size;
-- (UIImage *)squareImageWithSize:(CGFloat)size;
-
-- (UIImage *)imageAsCircle:(BOOL)clipToCircle
-               withDiamter:(CGFloat)diameter
-               borderColor:(UIColor *)borderColor
-               borderWidth:(CGFloat)borderWidth
-              shadowOffSet:(CGSize)shadowOffset;
-
-#pragma mark - Input bar
-+ (UIImage *)inputBar;
-+ (UIImage *)inputField;
+@interface UIImage (JSMessagesBubble)
 
 #pragma mark - Bubble cap insets
-- (UIImage *)makeStretchableDefaultIncoming;
-- (UIImage *)makeStretchableDefaultOutgoing;
 
-- (UIImage *)makeStretchableSquareIncoming;
-- (UIImage *)makeStretchableSquareOutgoing;
+- (UIImage *)js_makeStretchableDefaultIncoming;
+- (UIImage *)js_makeStretchableDefaultOutgoing;
+
+- (UIImage *)js_makeStretchableSquareIncoming;
+- (UIImage *)js_makeStretchableSquareOutgoing;
 
 #pragma mark - Incoming message bubbles
-+ (UIImage *)bubbleDefaultIncoming;
-+ (UIImage *)bubbleDefaultIncomingSelected;
 
-+ (UIImage *)bubbleDefaultIncomingGreen;
++ (UIImage *)js_bubbleDefaultIncoming;
++ (UIImage *)js_bubbleDefaultIncomingSelected;
 
-+ (UIImage *)bubbleSquareIncoming;
-+ (UIImage *)bubbleSquareIncomingSelected;
++ (UIImage *)js_bubbleDefaultIncomingGreen;
+
++ (UIImage *)js_bubbleSquareIncoming;
++ (UIImage *)js_bubbleSquareIncomingSelected;
 
 #pragma mark - Outgoing message bubbles
-+ (UIImage *)bubbleDefaultOutgoing;
-+ (UIImage *)bubbleDefaultOutgoingSelected;
 
-+ (UIImage *)bubbleDefaultOutgoingGreen;
++ (UIImage *)js_bubbleDefaultOutgoing;
++ (UIImage *)js_bubbleDefaultOutgoingSelected;
 
-+ (UIImage *)bubbleSquareOutgoing;
-+ (UIImage *)bubbleSquareOutgoingSelected;
++ (UIImage *)js_bubbleDefaultOutgoingGreen;
+
++ (UIImage *)js_bubbleSquareOutgoing;
++ (UIImage *)js_bubbleSquareOutgoingSelected;
 
 @end

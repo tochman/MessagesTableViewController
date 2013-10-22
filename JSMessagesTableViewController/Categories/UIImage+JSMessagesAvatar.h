@@ -1,7 +1,5 @@
 //
-//  UIColor+JSMessagesView.m
-//
-//  Created by Jesse Squires on 3/19/13.
+//  Created by Jesse Squires on 10/20/13.
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
 //  http://www.hexedbits.com
@@ -26,18 +24,18 @@
 //  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "UIColor+JSMessagesView.h"
+#import <UIKit/UIKit.h>
 
-@implementation UIColor (JSMessagesView)
+@interface UIImage (JSMessagesAvatar)
 
-+ (UIColor *)messagesBackgroundColor
-{
-    return [UIColor colorWithRed:0.859f green:0.886f blue:0.929f alpha:1.0f];
-}
+- (UIImage *)js_circleImageWithSize:(CGFloat)size;
 
-+ (UIColor *)messagesTimestampColor
-{
-    return [UIColor colorWithRed:0.533f green:0.573f blue:0.647f alpha:1.0f];
-}
+- (UIImage *)js_squareImageWithSize:(CGFloat)size;
+
+- (UIImage *)js_imageAsCircle:(BOOL)clipToCircle
+                  withDiamter:(CGFloat)diameter
+                  borderColor:(UIColor *)borderColor
+                  borderWidth:(CGFloat)borderWidth
+                 shadowOffSet:(CGSize)shadowOffset;
 
 @end

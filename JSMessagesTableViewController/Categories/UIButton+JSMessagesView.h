@@ -1,7 +1,5 @@
 //
-//  UIView+AnimationOptionsForCurve.m
-//
-//  Created by Jesse Squires on 3/11/13.
+//  Created by Jesse Squires on 3/24/13.
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
 //  http://www.hexedbits.com
@@ -26,28 +24,10 @@
 //  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "UIView+AnimationOptionsForCurve.h"
+#import <UIKit/UIKit.h>
 
-@implementation UIView (AnimationOptionsForCurve)
+@interface UIButton (JSMessagesView)
 
-+ (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve
-{
-    switch (curve) {
-        case UIViewAnimationCurveEaseInOut:
-            return UIViewAnimationOptionCurveEaseInOut;
-            break;
-        case UIViewAnimationCurveEaseIn:
-            return UIViewAnimationOptionCurveEaseIn;
-            break;
-        case UIViewAnimationCurveEaseOut:
-            return UIViewAnimationOptionCurveEaseOut;
-            break;
-        case UIViewAnimationCurveLinear:
-            return UIViewAnimationOptionCurveLinear;
-            break;
-    }
-    
-    return kNilOptions;
-}
++ (UIButton *)js_defaultSendButton_iOS6;
 
 @end
